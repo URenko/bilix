@@ -223,14 +223,14 @@ class BasedTimeRange(click.ParamType):
     '--video-con',
     'video_concurrency',
     type=int,
-    default=3,
+    default=1,
 )
 @click.option(
     '-pc',
     "--part-con",
     "part_concurrency",
     type=int,
-    default=10,
+    default=1,
 )
 @click.option(
     '--cookie',
