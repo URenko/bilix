@@ -5,8 +5,6 @@ from urllib.parse import quote
 import httpx
 from pydantic import field_validator, BaseModel, Field
 from typing import Union, List, Tuple, Dict, Optional
-import json5
-from danmakuC.bilibili import parse_view
 from bilix.download.utils import req_retry, raise_api_error
 from bilix.sites.bilibili.utils import parse_ids_from_url
 from bilix.utils import legal_title
@@ -17,7 +15,7 @@ import time
 dft_client_settings = {
     'headers': {'user-agent': 'PostmanRuntime/7.29.0', 'referer': 'https://www.bilibili.com'},
     'cookies': {'CURRENT_FNVAL': '4048'},
-    'http2': True
+    'http2': False
 }
 
 
@@ -32,7 +30,7 @@ async def get_cate_meta(client: httpx.AsyncClient) -> dict:
     cate_info = {}
     res = await req_retry(client, 'https://s1.hdslb.com/bfs/static/laputa-channel/client/assets/index.c0ea30e6.js')
     cate_data = re.search('Za=([^;]*);', res.text).groups()[0]
-    cate_data = json5.loads(cate_data)['channelList']
+    cate_data = json.loads(cate_data)['channelList']
     for i in cate_data:
         if 'sub' in i:
             for j in i['sub']:
