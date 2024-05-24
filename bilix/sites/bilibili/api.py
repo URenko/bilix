@@ -288,9 +288,14 @@ class Dash(BaseModel):
             keys = [k for k in self.video_formats.keys() if self.video_formats[k]]
             quality = min(quality, len(keys) - 1)
             k = keys[quality]
-            for c in self.video_formats[k]:
-                if c.startswith(video_codec):
-                    return self.video_formats[k][c]
+            if video_codec:
+                prefer_codecs = (video_codec,)
+            else:
+                prefer_codecs = ('av01', 'hevc', video_codec)
+            for prefer_codec in prefer_codecs:
+                for c in self.video_formats[k]:
+                    if c.startswith(prefer_codec):
+                        return self.video_formats[k][c]
         raise KeyError(f"no match for video quality: {quality} codec: {video_codec}")
 
     def choose_audio(self, audio_codec: str) -> Optional[Media]:
