@@ -8,7 +8,6 @@ import uuid
 import random
 import os
 from email.message import Message
-from pymp4.parser import Box
 from bilix.download.base_downloader import BaseDownloader
 from bilix.download.utils import path_check, merge_files
 from bilix import ffmpeg

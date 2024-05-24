@@ -15,8 +15,6 @@ from bilix.exception import HandleMethodError, APIUnsupportedError, APIResourceE
 from bilix.cli.assign import kwargs_filter, auto_assemble
 from bilix import ffmpeg
 
-from danmakuC.bilibili import proto2ass
-
 
 class DownloaderBilibili(BaseDownloaderPart):
     cookie_domain = "bilibili.com"  # for load cookies quickly
