@@ -424,12 +424,7 @@ def _parse_ep_html(url, html: str) -> VideoInfo:
 
 @raise_api_error
 async def get_video_info(client: httpx.AsyncClient, url: str) -> VideoInfo:
-    try:
-        # try to get video info from web front-end first
-        return await _get_video_info_from_html(client, url)
-    except APIInvalidError:
-        # try to get video info from api if web front-end is banned
-        return await _get_video_info_from_api(client, url)
+    return await _get_video_info_from_api(client, url)
 
 
 async def _get_video_info_from_html(client: httpx.AsyncClient, url: str) -> VideoInfo:
@@ -485,7 +480,7 @@ async def _attach_dash_and_durl_from_api(client: httpx.AsyncClient, video_info: 
               'qn': 120,  # 如无 dash 资源（少数老视频），fallback 到 4K 超清 durl
               'fnval': 4048,  # 如 dash 资源可用，请求 dash 格式的全部可用流
               'fourk': 1,  # 请求 4k 资源
-              'fnver': 0, 'platform': 'pc', 'otype': 'json'}
+              'fnver': 0, 'platform': 'pc', 'otype': 'json', 'try_look': 1}
     dash_response = await req_retry(client, 'https://api.bilibili.com/x/player/playurl',
                                     params=params, follow_redirects=True)
     dash_json = json.loads(dash_response.text)
